@@ -11,6 +11,11 @@ enum color_t {
 namespace rb {
 
     template <typename TKey, typename TValue>
+    node<TKey, TValue> *find_remove_node(node<TKey, TValue> *root_node, TKey key, comparator<TKey> *key_comparator)
+    {
+        return bst::find_remove_node(root_node, key, key_comparator);
+    }
+    template <typename TKey, typename TValue>
     node<TKey, TValue> *get_left(node<TKey, TValue> *p_node);
     template <typename TKey, typename TValue>
     node<TKey, TValue> *get_right(node<TKey, TValue> *p_node);
@@ -507,7 +512,8 @@ status_t rb_tree<TKey, TValue>::rb_remove_template_method::inner_remove(
     node<TKey, TValue> *replace_parent_node = nullptr;
     node<TKey, TValue> *current_node = root_node;
     node<TKey, TValue> *remove_node = nullptr;
-    while(current_node)
+    remove_node = rb::find_remove_node(root_node, key, key_comparator);
+    /*while(current_node)//выделить все алгоритмы в отдельный класс
     //ищем удаляемый элемент
     {
         compare_t compare_result = (*key_comparator)(key, current_node->key);
@@ -527,7 +533,7 @@ status_t rb_tree<TKey, TValue>::rb_remove_template_method::inner_remove(
             remove_node = current_node;
             break;
         }
-    }
+    }*/
     if (!remove_node)
     //удаляемый элемент отсутствует
     {
