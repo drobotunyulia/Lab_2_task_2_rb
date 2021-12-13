@@ -21,6 +21,33 @@ enum status_t {
 
 namespace bst {
     template <typename TKey, typename TValue>
+    node<TKey, TValue> *find_remove_node(node<TKey, TValue> *root_node, TKey key, comparator<TKey> *key_comparator)
+    {
+        node <TKey, TValue> *current_node = root_node;
+        while(current_node)//выделить все алгоритмы в отдельный класс
+        //ищем удаляемый элемент
+        {
+            compare_t compare_result = (*key_comparator)(key, current_node->key);
+            if (compare_result == LESS)
+            //идем по левой стороне
+            {
+                current_node = current_node->left;
+            }
+            else if (compare_result == GREAT)
+            //идем по правой стороне
+            {
+                current_node = current_node->right;
+            }
+            else if (compare_result == EQUAL)
+            //элемент найден
+            {
+                return current_node;
+            }
+        }
+        return current_node;
+    }
+
+    template <typename TKey, typename TValue>
     node<TKey, TValue> *get_left(node<TKey, TValue> *p_node)
     //получить указатель на левого потомка
     {
